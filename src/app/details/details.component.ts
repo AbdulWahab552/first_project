@@ -46,7 +46,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 export class DetailsComponent {
 
   route: ActivatedRoute = inject(ActivatedRoute);
-  housingService = inject(HousingService);
+
   housingLocation: HousingLocation | undefined;
 
   applyForm = new FormGroup({
@@ -54,12 +54,12 @@ export class DetailsComponent {
     lastName: new FormControl(''),
     email: new FormControl('')
   });
-
-  constructor() {
+  constructor(private housingService: HousingService) {
     const housingLocationId = parseInt(this.route.snapshot.params['id'], 10);
-    this.housingLocation = this.housingService.getHousingLocationById(housingLocationId);
+    this.housingService.getHousingLocationById(housingLocationId).then((housingLocation: HousingLocation | undefined) => {
+      this.housingLocation = housingLocation;
+    })
   }
-
   submitApplication() {
     this.housingService.submitApplication(
       this.applyForm.value.firstName ?? '',
@@ -69,10 +69,3 @@ export class DetailsComponent {
   }
 
 }
-
-
-/*
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://angular.io/license
-*/

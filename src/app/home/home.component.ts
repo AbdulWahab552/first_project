@@ -2,9 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HousingLocationComponent } from '../housing-location/housing-location.component';
 import { HousingLocation } from '../housinglocation';
-import { HousingService } from '../housing.service'
-import { FormControl, FormGroup } from '@angular/forms';;
-import { filter } from 'rxjs/operators';
+import { HousingService } from '../housing.service';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -17,19 +16,23 @@ import { filter } from 'rxjs/operators';
       </form>
     </section>
     <section class="results">
-      <app-housing-location
-        *ngFor="let housingLocation of filteredLocationList"
-        [housingLocation]="housingLocation">
-      </app-housing-location>
+    <app-housing-location
+    *ngFor="let housingLocation of filteredLocationList"
+    [housingLocation]="housingLocation">
+  </app-housing-location>
     </section>`,
   styleUrls: ['./home.component.sass']
 })
 export class HomeComponent {
   filteredLocationList: HousingLocation[] = [];
   housingLocationList: HousingLocation[] = [];
+
   constructor(private housingService: HousingService) {
-    this.housingLocationList = this.housingService.getAllHousingLocations();
-    this.filteredLocationList = this.housingLocationList;
+    this.housingService.getAllHousingLocations().then((housingLocationList: HousingLocation[]) => {
+      console.log("agya")
+      this.housingLocationList = housingLocationList;
+      this.filteredLocationList = housingLocationList;
+    });
   }
   filterResults(text: string) {
     if (!text) {

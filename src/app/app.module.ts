@@ -5,10 +5,12 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { DetailsComponent } from './details/details.component';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { HousingService } from './housing.service';
 @NgModule({
-  declarations: [AppComponent,  DetailsComponent],
+  declarations: [AppComponent,DetailsComponent],
   imports: [BrowserModule, AppRoutingModule,HomeComponent,ReactiveFormsModule],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [HousingService],
+
 })
 export class AppModule { }
